@@ -1,62 +1,23 @@
-# Trap's All-In-One
+# Trap's Baba Yaga
 
 This repo is a mod for [sp-tarkov](https://sp-tarkov.com/)
 
 ## Description
+Kill people and make money.
 
-Add some opinionated tweaks to the game for casual gamers.
+This mod add 2 real repeatable quests (not daily quests) for fence trader:
+- Kill contracts: kill 10 guys and earn money
+- Dogtags collector: give 10 dogtags and earn money and a [GP coin](https://escapefromtarkov.fandom.com/wiki/GP_coin).
 
-## Compatiblity
-
-It's compatible with spt-aki 3.0.0
+## Installation requirements
+[`Custom Quests`](https://hub.sp-tarkov.com/files/file/517-custom-quests/) (>= v2.3.1) should be installed.
 
 ## Configuration
+In `config/config.json` file: 
+- "kill contracts" and "dogtags collector" quests can be disabled independently
+- number of needed kills and needed dogtags are configurable (these are the requirements to complete the quest one time)
+- rewards are configurable (xp, money, gp coins)
 
-All the features can be disabled/tweaked via the `src/config/config.js` file.
+## Compatiblity
+It's compatible with spt-aki 3.0.0
 
-## Features
-
-#### Bots
-
-- All AIs bots are easy
-- AIs bots are dumbs
-- AIs bots don't use grenades
-- 100% chance a PMC is USEC
-- Convert 60% of scavs in PMCs
-- Convert 100% of rogues in PMCs
-- More bots on all maps (2 additional bots per wave)
-- Boss disabled by default in the raid menu
-
-#### Raids
-
-- Raid time extended to 8 hours
-- 75% Airdrops chance on all maps
-- All items weight divised by 2
-- Fast magdrill
-- More loots (loose loot included)
-- Stimulants injectors can be used 3 times
-
-#### Misc
-
-- Examine all items by default (except for keys and cards)
-- Keys/cards infinite uses
-- Color ammo according to the penetration
-- Bigger Gamma secure container (6x6) (except if `Trap's Progressive Stash` mod is present)
-- Bigger Kappa secure container (6x10) (except if `Trap's Progressive Stash` mod is present)
-- Bigger keytool (14x14)
-- Reduced insurance time return for prapor and therapist to 1 hour
-- Reduced scav cooldown to 10 minutes
-
-### Flea market
-
-- Disable the BSG blacklist
-- All items are sellable on flea
-- No durability required to sell an item
-- Instant sell
-- No fees
-
-#### Hideout
-
-- Instant construction time
-- Instant Production time (except for physical bitcoins obviously)
-- Stash vertical size set to 256 (except if `Trap's Progressive Stash` mod is present)
