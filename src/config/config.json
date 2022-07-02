@@ -3,6 +3,7 @@
   "quests": {
     "kill_contracts": {
       "enabled": true,
+      "trader_id": "579dc571d53a0658a154fbec",
       "needed_kills": 10,
       "experience_per_kill": 5000,
       "roubles_per_kill": 10000,
@@ -12,6 +13,7 @@
     },
     "dogtags_collector": {
       "enabled": true,
+      "trader_id": "579dc571d53a0658a154fbec",
       "needed_dogtags": 10,
       "experience_per_dogtag": 5000,
       "roubles_per_dogtag": 10000,

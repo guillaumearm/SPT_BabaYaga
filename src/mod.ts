@@ -41,7 +41,7 @@ class Mod implements IMod {
     return {
       id: "@mod-trap-babayaga/kill_contracts",
       repeatable: true,
-      trader_id: "fence",
+      trader_id: killContracts.trader_id,
       name: {
         en: "Baba Yaga: Kill contracts",
       },
@@ -93,7 +93,7 @@ class Mod implements IMod {
     return {
       id: "@mod-trap-babayaga/dogtags_collector",
       repeatable: true,
-      trader_id: "fence",
+      trader_id: dogtagsCollector.trader_id,
       name: {
         en: "Baba Yaga: Dogtags collector",
       },

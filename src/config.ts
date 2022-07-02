@@ -11,6 +11,7 @@ export type Config = {
   quests: {
     kill_contracts: {
       enabled: boolean;
+      trader_id: string;
       needed_kills: number;
       experience_per_kill: number;
       roubles_per_kill: number;
@@ -20,6 +21,7 @@ export type Config = {
     };
     dogtags_collector: {
       enabled: boolean;
+      trader_id: string;
       needed_dogtags: number;
       experience_per_dogtag: number;
       roubles_per_dogtag: number;
