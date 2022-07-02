@@ -3,21 +3,129 @@ import type { DependencyContainer } from "tsyringe";
 import type { IMod } from "@spt-aki/models/external/mod";
 import type { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 
-import { getModDisplayName, noop, readJsonFile } from "./utils";
+import { getModDisplayName, isNotUndefined, noop, readJsonFile } from "./utils";
 import type { Config, PackageJson } from "./config";
+
+const ROUBLES_ID = "5449016a4bdc2d6f028b456f";
+const DOLLARS_ID = "5696686a4bdc2da3298b456a";
+const EUROS_ID = "569668774bdc2da2298b4568";
+const GP_COIN_ID = "5d235b4d86f7742e017bc88a";
+const BEAR_DOGTAG_ID = "59f32bb586f774757e1e8442";
+const USEC_DOGTAG_ID = "59f32c3b86f77472a31742f0";
 
 class Mod implements IMod {
   private logger: ILogger;
   private debug: (data: string) => void;
+
+  private modName: string;
   private packageJson: PackageJson;
   private config: Config;
+
+  private getKillContracts() {
+    const killContracts = this.config.quests.kill_contracts;
+
+    if (!killContracts.enabled) {
+      return undefined;
+    }
+
+    const kills = killContracts.needed_kills || 1;
+
+    const xp = killContracts.experience_per_kill * kills;
+    const roubles = killContracts.roubles_per_kill * kills;
+    const dollars = killContracts.dollars_per_kill * kills;
+    const euros = killContracts.euros_per_kill * kills;
+    const gpCoins = killContracts.gp_coins_reward;
+
+    return {
+      id: "@mod-trap-babayaga/kill_contracts",
+      repeatable: true,
+      trader_id: "fence",
+      name: "Baba Yaga: Kill contracts",
+      description:
+        "I need more than a simple Boogey-man.\nScavs and PMCs are everywhere, can you kill a bunch of them in Tarkov for me ?",
+      success_message:
+        "Excellent! Thanks for your help, here is 100k roubles for you.",
+      type: "Elimination",
+      missions: [
+        {
+          type: "Kill",
+          count: kills,
+          target: "Any",
+          message: `Kill ${kills} guy${kills > 1 ? "s" : ""}`,
+        },
+      ],
+      rewards: {
+        xp,
+        items: {
+          [ROUBLES_ID]: roubles,
+          [DOLLARS_ID]: dollars,
+          [EUROS_ID]: euros,
+          [GP_COIN_ID]: gpCoins,
+        },
+      },
+    };
+  }
+
+  private getDogtagsCollectorQuest() {
+    const dogtagsCollector = this.config.quests.dogtags_collector;
+
+    if (!dogtagsCollector.enabled) {
+      return undefined;
+    }
+
+    const dogtags = dogtagsCollector.needed_dogtags || 1;
+
+    const xp = dogtagsCollector.experience_per_dogtag * dogtags;
+    const roubles = dogtagsCollector.roubles_per_dogtag * dogtags;
+    const dollars = dogtagsCollector.dollars_per_dogtag * dogtags;
+    const euros = dogtagsCollector.euros_per_dogtag * dogtags;
+
+    const gpCoins = dogtagsCollector.gp_coins_reward;
+
+    return {
+      id: "@mod-trap-babayaga/dogtags_collector",
+      repeatable: true,
+      trader_id: "fence",
+      name: "Baba Yaga: Dogtags collector",
+      description:
+        "Give me the name of those you eliminate and I give you some extra roubles.",
+      success_message:
+        "Excellent! Thanks for your help, here is 100k roubles for you.",
+      type: "PickUp",
+      missions: [
+        {
+          type: "GiveItem",
+          accepted_items: [USEC_DOGTAG_ID, BEAR_DOGTAG_ID],
+          count: dogtags,
+          message: {
+            en: `Give me ${dogtags} dogtag${dogtags > 1 ? "s" : ""}`,
+          },
+        },
+      ],
+      rewards: {
+        xp,
+        items: {
+          [ROUBLES_ID]: roubles,
+          [DOLLARS_ID]: dollars,
+          [EUROS_ID]: euros,
+          [GP_COIN_ID]: gpCoins,
+        },
+      },
+    };
+  }
+
+  private getCustomQuests() {
+    return [this.getKillContracts(), this.getDogtagsCollectorQuest()].filter(
+      isNotUndefined
+    );
+  }
 
   public load(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.packageJson = readJsonFile<PackageJson>("../package.json");
     this.config = readJsonFile<Config>("./config/config.json");
 
-    console.log(this.packageJson, this.config);
+    this.modName = getModDisplayName(this.packageJson);
 
     this.debug = this.config.debug
       ? (data: string) =>
@@ -28,20 +136,38 @@ class Mod implements IMod {
       this.debug("debug mode enabled");
     }
 
-    this.logger.info(
-      `===> Loading ${getModDisplayName(this.packageJson, true)}`
-    );
+    this.logger.info(`===> Loading ${this.modName}`);
   }
 
-  public delayedLoad(container: DependencyContainer): void {
-    void container;
-    // const database = container.resolve<DatabaseServer>("DatabaseServer");
-    // const configServer = container.resolve<ConfigServer>("ConfigServer");
-    // const modLoader = container.resolve<InitialModLoader>("InitialModLoader");
+  public delayedLoad(): void {
+    if (!globalThis.CustomQuestsAPI) {
+      this.logger.error(
+        `${this.packageJson.fullName} Error: CustomQuestsAPI not found, are you sure a version of CustomQuests >= 2.2.0 is installed ?`
+      );
+      return;
+    }
 
-    this.logger.success(
-      `===> Successfully loaded ${getModDisplayName(this.packageJson, true)}`
-    );
+    // TODO: api types
+    const api = globalThis.CustomQuestsAPI;
+
+    if (!api.load) {
+      this.logger.error(
+        `${this.packageJson.fullName} Fatal Error: CustomQuestsAPI.load method not found`
+      );
+      return;
+    }
+
+    const quests = this.getCustomQuests();
+
+    if (!quests.length) {
+      this.logger.warning(`${this.packageJson.fullName}: all quests disabled`);
+      return;
+    }
+
+    this.debug(`attempt to load ${quests.length} quests`);
+    api.load(quests);
+
+    this.logger.success(`===> Successfully loaded ${this.modName}`);
   }
 }
 

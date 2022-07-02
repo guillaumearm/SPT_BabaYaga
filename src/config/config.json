@@ -1,9 +1,23 @@
 {
   "debug": true,
-  "kill_contracts": {
-    "enabled": true
-  },
-  "dogtags_collector": {
-    "enabled": true
+  "quests": {
+    "kill_contracts": {
+      "enabled": true,
+      "needed_kills": 10,
+      "experience_per_kill": 5000,
+      "roubles_per_kill": 10000,
+      "dollars_per_kill": 0,
+      "euros_per_kill": 0,
+      "gp_coins_reward": 0
+    },
+    "dogtags_collector": {
+      "enabled": true,
+      "needed_dogtags": 10,
+      "experience_per_dogtag": 5000,
+      "roubles_per_dogtag": 10000,
+      "dollars_per_dogtag": 0,
+      "euros_per_dogtag": 0,
+      "gp_coins_reward": 1
+    }
   }
 }
