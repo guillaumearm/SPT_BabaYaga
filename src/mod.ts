@@ -49,7 +49,7 @@ class Mod implements IMod {
         en: "I need more than a simple Boogey-man.\nScavs and PMCs are everywhere, can you kill a bunch of them in Tarkov for me ?",
       },
       success_message: {
-        en: "Excellent! Thanks for your help, here is 100k roubles for you.",
+        en: "Excellent! Thanks for your help.\n Here is your reward, but wait... there is more.",
       },
       type: "Elimination",
       missions: [
@@ -98,10 +98,10 @@ class Mod implements IMod {
         en: "Baba Yaga: Dogtags collector",
       },
       description: {
-        en: "Give me the name of those you eliminate and I give you some extra roubles.",
+        en: "Give me the name of those you eliminate and I give you some extra rewards.",
       },
       success_message: {
-        en: "Excellent! Thanks for your help, here is 100k roubles for you.",
+        en: "Excellent! Thanks for your help.\n Here is your reward, but wait... there is more.",
       },
       type: "PickUp",
       missions: [
