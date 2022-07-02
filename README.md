@@ -19,7 +19,7 @@ In `config/config.json` file:
 - "kill contracts" and "dogtags collector" quests can be disabled independently
 - number of needed kills and needed dogtags are configurable (these are the requirements to complete the quest one time)
 - rewards are configurable (xp, money, gp coins)
-- the trader who gives you a certain quest
+- the trader who gives you a certain quest (work with modded traders)
 
 ## Compatiblity
 It's compatible with spt-aki 3.0.0
