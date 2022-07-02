@@ -2,7 +2,7 @@
   "name": "trap-baba-yaga",
   "displayName": "Trap's Baba Yaga",
   "fullName": "Trap-BabaYaga",
-  "version": "1.0.0",
+  "version": "1.0.0-beta",
   "main": "src/mod.js",
   "license": "MIT",
   "author": "Trap",
