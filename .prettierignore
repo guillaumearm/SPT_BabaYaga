@@ -1,0 +1,7 @@
+/types/
+/tmp/
+/dist/
+/src/**/*.js
+/Trap-BabaYaga*
+*.md
+package-lock.json

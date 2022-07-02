@@ -1,0 +1,9 @@
+{
+  "debug": true,
+  "kill_contracts": {
+    "enabled": true
+  },
+  "dogtags_collector": {
+    "enabled": true
+  }
+}
