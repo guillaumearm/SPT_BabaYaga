@@ -15,6 +15,54 @@ const USEC_DOGTAG_ID = "59f32c3b86f77472a31742f0";
 
 const CUSTOM_QUESTS_MINIMUM_VERSION = "2.3.1";
 
+type Target = "all" | "pmc" | "scav";
+
+const TARGET_TYPES: Record<Target, string> = {
+  all: "Any",
+  pmc: "AnyPmc",
+  scav: "Savage",
+};
+
+const getTarget = (target: string): Target | null => {
+  if (target === "all" || target === "pmc" || target === "scav") {
+    return target;
+  }
+
+  return null;
+};
+
+const getKillContractsDescription = (target: Target) => {
+  let targetMsg = "";
+
+  if (target === "pmc") {
+    targetMsg = "PMCs";
+  } else if (target === "scav") {
+    targetMsg = "Scavs";
+  } else {
+    targetMsg = "Scavs and PMCs";
+  }
+
+  return {
+    en: `I need more than a simple Boogey-man.\n${targetMsg} are everywhere, can you kill a bunch of them in Tarkov for me ?`,
+  };
+};
+
+const getKillContractsKillMissionMessage = (target: Target, nb: number) => {
+  let targetMsg = "";
+
+  if (target === "pmc") {
+    targetMsg = "PMC";
+  } else if (target === "scav") {
+    targetMsg = "Scav";
+  } else {
+    targetMsg = "guy";
+  }
+
+  return {
+    en: `Kill ${nb} ${targetMsg}${nb > 1 ? "s" : ""}`,
+  };
+};
+
 class Mod implements IMod {
   private logger: ILogger;
   private debug: (data: string) => void;
@@ -38,6 +86,15 @@ class Mod implements IMod {
     const euros = killContracts.euros_per_kill * kills;
     const gpCoins = killContracts.gp_coins_reward;
 
+    const target = getTarget(killContracts.target);
+
+    if (!target) {
+      this.logger.error(
+        `${this.packageJson.fullName} Error: cannot load kill contracts quest because target is invalid (should be 'any', 'pmc' or 'scav')`
+      );
+      return undefined;
+    }
+
     return {
       id: "@mod-trap-babayaga/kill_contracts",
       repeatable: true,
@@ -45,9 +102,7 @@ class Mod implements IMod {
       name: {
         en: "Baba Yaga: Kill contracts",
       },
-      description: {
-        en: "I need more than a simple Boogey-man.\nScavs and PMCs are everywhere, can you kill a bunch of them in Tarkov for me ?",
-      },
+      description: getKillContractsDescription(target),
       success_message: {
         en: "Excellent! Thanks for your help.\n Here is your reward, but wait... there is more.",
       },
@@ -56,10 +111,8 @@ class Mod implements IMod {
         {
           type: "Kill",
           count: kills,
-          target: "Any",
-          message: {
-            en: `Kill ${kills} guy${kills > 1 ? "s" : ""}`,
-          },
+          target: TARGET_TYPES[target],
+          message: getKillContractsKillMissionMessage(target, kills),
         },
       ],
       rewards: {

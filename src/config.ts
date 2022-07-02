@@ -12,6 +12,7 @@ export type Config = {
     kill_contracts: {
       enabled: boolean;
       trader_id: string;
+      target: string; // 'all' | 'pmc' | 'scav'
       needed_kills: number;
       experience_per_kill: number;
       roubles_per_kill: number;

@@ -4,6 +4,7 @@
     "kill_contracts": {
       "enabled": true,
       "trader_id": "579dc571d53a0658a154fbec",
+      "target": "all",
       "needed_kills": 10,
       "experience_per_kill": 0,
       "roubles_per_kill": 10000,
