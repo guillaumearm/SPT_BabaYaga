@@ -135,7 +135,7 @@ class Mod implements IMod {
   public load(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.packageJson = readJsonFile<PackageJson>("../package.json");
-    this.config = readJsonFile<Config>("./config/config.json");
+    this.config = readJsonFile<Config>("../config/config.json");
 
     this.modName = getModDisplayName(this.packageJson);
 
