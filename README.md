@@ -7,7 +7,7 @@ Kill people and make money.
 
 This mod add 2 real repeatable quests (not daily quests) for fence trader:
 - Kill contracts: kill 10 guys and earn money
-- Dogtags collector: give 10 dogtags and earn money and a [GP coin](https://escapefromtarkov.fandom.com/wiki/GP_coin).
+- Dogtags collector: give 10 dogtags and earn money (+ 1 [GP coin](https://escapefromtarkov.fandom.com/wiki/GP_coin)).
 
 **Real repeatable quests** means once you completed a quest, **you can restart it directly**.
 
