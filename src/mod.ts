@@ -13,6 +13,8 @@ const GP_COIN_ID = "5d235b4d86f7742e017bc88a";
 const BEAR_DOGTAG_ID = "59f32bb586f774757e1e8442";
 const USEC_DOGTAG_ID = "59f32c3b86f77472a31742f0";
 
+const CUSTOM_QUESTS_MINIMUM_VERSION = "2.3.1";
+
 class Mod implements IMod {
   private logger: ILogger;
   private debug: (data: string) => void;
@@ -40,18 +42,24 @@ class Mod implements IMod {
       id: "@mod-trap-babayaga/kill_contracts",
       repeatable: true,
       trader_id: "fence",
-      name: "Baba Yaga: Kill contracts",
-      description:
-        "I need more than a simple Boogey-man.\nScavs and PMCs are everywhere, can you kill a bunch of them in Tarkov for me ?",
-      success_message:
-        "Excellent! Thanks for your help, here is 100k roubles for you.",
+      name: {
+        en: "Baba Yaga: Kill contracts",
+      },
+      description: {
+        en: "I need more than a simple Boogey-man.\nScavs and PMCs are everywhere, can you kill a bunch of them in Tarkov for me ?",
+      },
+      success_message: {
+        en: "Excellent! Thanks for your help, here is 100k roubles for you.",
+      },
       type: "Elimination",
       missions: [
         {
           type: "Kill",
           count: kills,
           target: "Any",
-          message: `Kill ${kills} guy${kills > 1 ? "s" : ""}`,
+          message: {
+            en: `Kill ${kills} guy${kills > 1 ? "s" : ""}`,
+          },
         },
       ],
       rewards: {
@@ -86,11 +94,15 @@ class Mod implements IMod {
       id: "@mod-trap-babayaga/dogtags_collector",
       repeatable: true,
       trader_id: "fence",
-      name: "Baba Yaga: Dogtags collector",
-      description:
-        "Give me the name of those you eliminate and I give you some extra roubles.",
-      success_message:
-        "Excellent! Thanks for your help, here is 100k roubles for you.",
+      name: {
+        en: "Baba Yaga: Dogtags collector",
+      },
+      description: {
+        en: "Give me the name of those you eliminate and I give you some extra roubles.",
+      },
+      success_message: {
+        en: "Excellent! Thanks for your help, here is 100k roubles for you.",
+      },
       type: "PickUp",
       missions: [
         {
@@ -142,7 +154,7 @@ class Mod implements IMod {
   public delayedLoad(): void {
     if (!globalThis.CustomQuestsAPI) {
       this.logger.error(
-        `${this.packageJson.fullName} Error: CustomQuestsAPI not found, are you sure a version of CustomQuests >= 2.2.0 is installed ?`
+        `${this.packageJson.fullName} Error: CustomQuestsAPI not found, are you sure a version of CustomQuests >= ${CUSTOM_QUESTS_MINIMUM_VERSION} is installed ?`
       );
       return;
     }
@@ -164,8 +176,11 @@ class Mod implements IMod {
       return;
     }
 
-    this.debug(`attempt to load ${quests.length} quests`);
     api.load(quests);
+
+    quests.forEach((q) => {
+      this.debug(`loaded '${q.name.en}' quest!`);
+    });
 
     this.logger.success(`===> Successfully loaded ${this.modName}`);
   }
