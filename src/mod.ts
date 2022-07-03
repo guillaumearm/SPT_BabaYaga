@@ -13,7 +13,7 @@ const GP_COIN_ID = "5d235b4d86f7742e017bc88a";
 const BEAR_DOGTAG_ID = "59f32bb586f774757e1e8442";
 const USEC_DOGTAG_ID = "59f32c3b86f77472a31742f0";
 
-const CUSTOM_QUESTS_MINIMUM_VERSION = "2.4.2";
+const CUSTOM_QUESTS_MINIMUM_VERSION = "2.4.1";
 
 type Target = "all" | "pmc" | "scav";
 
