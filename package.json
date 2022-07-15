@@ -23,7 +23,7 @@
     "test": "tsc --noEmit && npm run lint:all"
   },
   "modDependencies": {
-    "Trap-CustomQuests": ">= 2.4.1"
+    "Trap-CustomQuests": ">= 2.5.0"
   },
   "devDependencies": {
     "@types/node": "^14.15.3",

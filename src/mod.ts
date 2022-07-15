@@ -85,6 +85,7 @@ class Mod implements IMod {
     const dollars = killContracts.dollars_per_kill * kills;
     const euros = killContracts.euros_per_kill * kills;
     const gpCoins = killContracts.gp_coins_reward;
+    const reputationReward = killContracts.trader_reputation_reward;
 
     const target = getTarget(killContracts.target);
 
@@ -117,6 +118,9 @@ class Mod implements IMod {
       ],
       rewards: {
         xp,
+        traders_reputations: {
+          [killContracts.trader_id]: reputationReward,
+        },
         items: {
           [ROUBLES_ID]: roubles,
           [DOLLARS_ID]: dollars,
@@ -140,6 +144,7 @@ class Mod implements IMod {
     const roubles = dogtagsCollector.roubles_per_dogtag * dogtags;
     const dollars = dogtagsCollector.dollars_per_dogtag * dogtags;
     const euros = dogtagsCollector.euros_per_dogtag * dogtags;
+    const reputationReward = dogtagsCollector.trader_reputation_reward;
 
     const gpCoins = dogtagsCollector.gp_coins_reward;
 
@@ -169,6 +174,9 @@ class Mod implements IMod {
       ],
       rewards: {
         xp,
+        traders_reputations: {
+          [dogtagsCollector.trader_id]: reputationReward,
+        },
         items: {
           [ROUBLES_ID]: roubles,
           [DOLLARS_ID]: dollars,
