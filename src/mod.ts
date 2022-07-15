@@ -31,35 +31,54 @@ const getTarget = (target: string): Target | null => {
   return null;
 };
 
-const getKillContractsDescription = (target: Target) => {
-  let targetMsg = "";
-
+const getTargetNameEn = (target: Target): string => {
   if (target === "pmc") {
-    targetMsg = "PMCs";
+    return "PMCs";
   } else if (target === "scav") {
-    targetMsg = "Scavs";
-  } else {
-    targetMsg = "Scavs and PMCs";
+    return "Scavs";
   }
 
+  return "Scavs and PMCs";
+};
+
+const getTargetNameRu = (target: Target): string => {
+  if (target === "pmc") {
+    return "ЧВКшники";
+  } else if (target === "scav") {
+    return "Дикие";
+  }
+
+  return "Дикие и ЧВКшники";
+};
+
+const getKillContractsDescription = (target: Target) => {
+  const targetName = getTargetNameEn(target);
+  const targetNameRu = getTargetNameRu(target);
+
   return {
-    en: `I need more than a simple Boogey-man.\n${targetMsg} are everywhere, can you kill a bunch of them in Tarkov for me ?`,
+    en: `I need more than a simple Boogey-man.\n${targetName} are everywhere, can you kill a bunch of them in Tarkov for me ?`,
+    ru: `Привет, наёмник. Есть работёнка для тебя. Видишь ли, в Таркове жопа сейчас, ${targetNameRu} разбрелись по территории города и окрестностей. Мои люди не могут нормально работать, а кое-кто не возвращается вовсе. Подстрели для меня этих ублюдков, и я тебе заплачу.`,
   };
 };
 
 const getKillContractsKillMissionMessage = (target: Target, nb: number) => {
-  let targetMsg = "";
+  let targetNameEn = "";
+  let targetNameRu = "";
 
   if (target === "pmc") {
-    targetMsg = "PMC";
+    targetNameEn = "PMC";
+    targetNameRu = "операторов ЧВК";
   } else if (target === "scav") {
-    targetMsg = "Scav";
+    targetNameEn = "Scav";
+    targetNameRu = "Диких";
   } else {
-    targetMsg = "guy";
+    targetNameEn = "guy";
+    targetNameRu = "Диких или операторов ЧВК";
   }
 
   return {
-    en: `Kill ${nb} ${targetMsg}${nb > 1 ? "s" : ""}`,
+    en: `Kill ${nb} ${targetNameEn}${nb > 1 ? "s" : ""}`,
+    ru: `Устранить для Скупщика ${nb} ${targetNameRu}`,
   };
 };
 
@@ -102,10 +121,12 @@ class Mod implements IMod {
       trader_id: killContracts.trader_id,
       name: {
         en: "Baba Yaga: Kill contracts",
+        ru: "Охотник за головами",
       },
       description: getKillContractsDescription(target),
       success_message: {
         en: "Excellent! Thanks for your help.\n Here is your reward, but wait... there is more.",
+        ru: "Отлично. Может, хоть какое-то время мои ребята спокойно будут зарабатывать на жизнь вместо бесконечных перестрелок с этими уродами. Вот твоя награда!",
       },
       type: "Elimination",
       missions: [
@@ -148,18 +169,26 @@ class Mod implements IMod {
 
     const gpCoins = dogtagsCollector.gp_coins_reward;
 
+    const missionMessageEn = `Give me ${dogtags} dogtag${
+      dogtags > 1 ? "s" : ""
+    }`;
+    const missionMessageRu = `Принести Скупщику ${dogtags} жетонов убитых операторов ЧВК`;
+
     return {
       id: "@mod-trap-babayaga/dogtags_collector",
       repeatable: true,
       trader_id: dogtagsCollector.trader_id,
       name: {
         en: "Baba Yaga: Dogtags collector",
+        ru: "Доказательства",
       },
       description: {
         en: "Give me the name of those you eliminate and I give you some extra rewards.",
+        ru: "По поводу моего поручения тебе. У меня тесные торговые взаимоотношения с Прапором и Миротворцем. Думаю, они смогли бы сообщить кому надо о гибели их соотечественников, так что... Когда убиваешь оператора, снимай с него жетон. За каждый такой плачу тебе отдельно.",
       },
       success_message: {
         en: "Excellent! Thanks for your help.\n Here is your reward, but wait... there is more.",
+        ru: "Хорошо, спасибо. Нехило ты опытных вояк уделал, верно? Вот, держи. Плачу дополнительно, как обещал.",
       },
       type: "PickUp",
       missions: [
@@ -168,7 +197,8 @@ class Mod implements IMod {
           accepted_items: [USEC_DOGTAG_ID, BEAR_DOGTAG_ID],
           count: dogtags,
           message: {
-            en: `Give me ${dogtags} dogtag${dogtags > 1 ? "s" : ""}`,
+            en: missionMessageEn,
+            ru: missionMessageRu,
           },
         },
       ],
