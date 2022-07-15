@@ -41,6 +41,16 @@ const getTargetNameEn = (target: Target): string => {
   return "Scavs and PMCs";
 };
 
+const getTargetNameFr = (target: Target): string => {
+  if (target === "pmc") {
+    return "PMCs";
+  } else if (target === "scav") {
+    return "Scavs";
+  }
+
+  return "Scavs et les PMCs";
+};
+
 const getTargetNameRu = (target: Target): string => {
   if (target === "pmc") {
     return "ЧВКшники";
@@ -52,32 +62,39 @@ const getTargetNameRu = (target: Target): string => {
 };
 
 const getKillContractsDescription = (target: Target) => {
-  const targetName = getTargetNameEn(target);
+  const targetNameEn = getTargetNameEn(target);
+  const targetNameFr = getTargetNameFr(target);
   const targetNameRu = getTargetNameRu(target);
 
   return {
-    en: `I need more than a simple Boogey-man.\n${targetName} are everywhere, can you kill a bunch of them in Tarkov for me ?`,
+    en: `I need more than a simple Boogey-man.\n${targetNameEn} are everywhere in Tarkov, can you shoot some for me ?`,
+    fr: `J'ai besoin de plus qu'un simple croque-mitaine.\nLes ${targetNameFr} sont partout dans Tarkov, peux tu en tuer quelques un pour moi ?`,
     ru: `Привет, наёмник. Есть работёнка для тебя. Видишь ли, в Таркове жопа сейчас, ${targetNameRu} разбрелись по территории города и окрестностей. Мои люди не могут нормально работать, а кое-кто не возвращается вовсе. Подстрели для меня этих ублюдков, и я тебе заплачу.`,
   };
 };
 
 const getKillContractsKillMissionMessage = (target: Target, nb: number) => {
   let targetNameEn = "";
+  let targetNameFr = "";
   let targetNameRu = "";
 
   if (target === "pmc") {
     targetNameEn = "PMC";
+    targetNameFr = "PMC";
     targetNameRu = "операторов ЧВК";
   } else if (target === "scav") {
     targetNameEn = "Scav";
+    targetNameFr = "Scav";
     targetNameRu = "Диких";
   } else {
     targetNameEn = "guy";
+    targetNameFr = "gars";
     targetNameRu = "Диких или операторов ЧВК";
   }
 
   return {
-    en: `Kill ${nb} ${targetNameEn}${nb > 1 ? "s" : ""}`,
+    en: `Shoot ${nb} ${targetNameEn}${nb > 1 ? "s" : ""}`,
+    fr: `Tues ${nb} ${targetNameFr}`,
     ru: `Устранить для Скупщика ${nb} ${targetNameRu}`,
   };
 };
@@ -121,11 +138,13 @@ class Mod implements IMod {
       trader_id: killContracts.trader_id,
       name: {
         en: "Baba Yaga: Kill contracts",
+        fr: "BaBa Yaga: Contrats de mort",
         ru: "Охотник за головами",
       },
       description: getKillContractsDescription(target),
       success_message: {
-        en: "Excellent! Thanks for your help.\n Here is your reward, but wait... there is more.",
+        en: "Excellent! Thanks for your help.\nHere is your reward, but wait... there's more.",
+        fr: "Excellent ! Merci pour ton aide.\nVoici ta récompense, mais attends... il y en a encore.",
         ru: "Отлично. Может, хоть какое-то время мои ребята спокойно будут зарабатывать на жизнь вместо бесконечных перестрелок с этими уродами. Вот твоя награда!",
       },
       type: "Elimination",
@@ -172,6 +191,11 @@ class Mod implements IMod {
     const missionMessageEn = `Give me ${dogtags} dogtag${
       dogtags > 1 ? "s" : ""
     }`;
+
+    const missionMessageFr = `Donnes moi ${dogtags} dogtag${
+      dogtags > 1 ? "s" : ""
+    }`;
+
     const missionMessageRu = `Принести Скупщику ${dogtags} жетонов убитых операторов ЧВК`;
 
     return {
@@ -180,14 +204,17 @@ class Mod implements IMod {
       trader_id: dogtagsCollector.trader_id,
       name: {
         en: "Baba Yaga: Dogtags collector",
+        fr: "Baba Yaga: Collectioneur de dogtags",
         ru: "Доказательства",
       },
       description: {
-        en: "Give me the name of those you eliminate and I give you some extra rewards.",
+        en: "Give me the name of those you eliminate and I'll give you some extra rewards.",
+        fr: "Donnes moi le nom de ceux que tu as éliminé et je te donnerai des récompenses supplémentaires.",
         ru: "По поводу моего поручения тебе. У меня тесные торговые взаимоотношения с Прапором и Миротворцем. Думаю, они смогли бы сообщить кому надо о гибели их соотечественников, так что... Когда убиваешь оператора, снимай с него жетон. За каждый такой плачу тебе отдельно.",
       },
       success_message: {
         en: "Excellent! Thanks for your help.\n Here is your reward, but wait... there is more.",
+        fr: "Excellent ! Merci pour ton aide.\nVoici ta récompense, mais attends... il y en a encore.",
         ru: "Хорошо, спасибо. Нехило ты опытных вояк уделал, верно? Вот, держи. Плачу дополнительно, как обещал.",
       },
       type: "PickUp",
@@ -198,6 +225,7 @@ class Mod implements IMod {
           count: dogtags,
           message: {
             en: missionMessageEn,
+            fr: missionMessageFr,
             ru: missionMessageRu,
           },
         },
