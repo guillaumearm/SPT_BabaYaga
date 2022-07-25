@@ -1,10 +1,12 @@
 import type { DependencyContainer } from "tsyringe";
 
-import type { IMod } from "@spt-aki/models/external/mod";
+import type { IPreAkiLoadMod } from "@spt-aki/models/external/IPreAkiLoadMod";
+import type { IPostAkiLoadMod } from "@spt-aki/models/external/IPostAkiLoadMod";
+
 import type { ILogger } from "@spt-aki/models/spt/utils/ILogger";
+import type { Config, PackageJson } from "./config";
 
 import { getModDisplayName, isNotUndefined, noop, readJsonFile } from "./utils";
-import type { Config, PackageJson } from "./config";
 
 const ROUBLES_ID = "5449016a4bdc2d6f028b456f";
 const DOLLARS_ID = "5696686a4bdc2da3298b456a";
@@ -99,7 +101,7 @@ const getKillContractsKillMissionMessage = (target: Target, nb: number) => {
   };
 };
 
-class Mod implements IMod {
+class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
   private logger: ILogger;
   private debug: (data: string) => void;
 
@@ -251,7 +253,7 @@ class Mod implements IMod {
     );
   }
 
-  public load(container: DependencyContainer): void {
+  public preAkiLoad(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.packageJson = readJsonFile<PackageJson>("../package.json");
     this.config = readJsonFile<Config>("../config/config.json");
@@ -270,7 +272,7 @@ class Mod implements IMod {
     this.logger.info(`===> Loading ${this.modName}`);
   }
 
-  public delayedLoad(): void {
+  public postAkiLoad(): void {
     if (!globalThis.CustomQuestsAPI) {
       this.logger.error(
         `${this.packageJson.fullName} Error: CustomQuestsAPI not found, are you sure a version of CustomQuests >= ${CUSTOM_QUESTS_MINIMUM_VERSION} is installed ?`

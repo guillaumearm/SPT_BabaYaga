@@ -1,3 +1,4 @@
+import { QuestRewardType } from "../../../enums/QuestRewardType";
 import { Item } from "./IItem";
 export interface IQuest {
     QuestName: string;
@@ -20,15 +21,16 @@ export interface IQuest {
     successMessageText: string;
     templateId: string;
     rewards: Rewards;
-    status: string;
-    KeyQuest: boolean;
-    changeQuestMessageText: string;
+    status?: string;
+    KeyQuest?: boolean;
+    changeQuestMessageText?: string;
+    side?: string;
 }
 export interface Conditions {
-    Started: AvailableForConditions[];
+    Started?: AvailableForConditions[];
     AvailableForFinish: AvailableForConditions[];
     AvailableForStart: AvailableForConditions[];
-    Success: AvailableForConditions[];
+    Success?: AvailableForConditions[];
     Fail: AvailableForConditions[];
 }
 export interface AvailableForConditions {
@@ -41,7 +43,7 @@ export interface AvailableForProps {
     index: number;
     parentId: string;
     dynamicLocale: boolean;
-    value?: number;
+    value?: string | number;
     compareMethod?: string;
     visibilityConditions?: VisibilityCondition[];
     target?: string | string[];
@@ -55,7 +57,8 @@ export interface AvailableForProps {
     counter?: AvailableForCounter;
     plantTime?: number;
     zoneId?: string;
-    type?: boolean;
+    type?: string;
+    countInRaid?: boolean;
 }
 export interface AvailableForCounter {
     id: string;
@@ -82,24 +85,29 @@ export interface DaytimeCounter {
     to: number;
 }
 export interface VisibilityCondition {
-    id: string;
-    value: number;
-    dynamicLocale: boolean;
-    oneSessionOnly: boolean;
+    id?: string; // not used ?
+    value?: number; // not used ?
+    dynamicLocale?: boolean; // not used ?
+    oneSessionOnly?: boolean; // not used ?
+    _parent: string;
+    _props: {
+        id: string;
+        target: string;
+    };
 }
 export interface Rewards {
-    AvailableForStart: Reward[];
-    AvailableForFinish: Reward[];
+    AvailableForStart?: Reward[];
+    AvailableForFinish?: Reward[];
     Started: Reward[];
     Success: Reward[];
     Fail: Reward[];
-    FailRestartable: Reward[];
-    Expired: Reward[];
+    FailRestartable?: Reward[];
+    Expired?: Reward[];
 }
 export interface Reward {
-    value?: string;
+    value?: string | number;
     id: string;
-    type: string;
+    type: QuestRewardType;
     index: number;
     target?: string;
     items?: Item[];
