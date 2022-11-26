@@ -12,7 +12,7 @@ This mod add 2 real repeatable quests (not daily quests) for fence trader:
 **Real repeatable quests** means once you completed a quest, **you can restart it directly**.
 
 ## Installation requirements
-[`Custom Quests`](https://hub.sp-tarkov.com/files/file/517-custom-quests/) (>= v2.3.1) should be installed.
+[`Custom Quests`](https://hub.sp-tarkov.com/files/file/701-baba-yaga/) (>= v3.0.1) should be installed.
 
 ## Configuration
 In `config/config.json` file: 
