@@ -37,28 +37,28 @@ export interface Dialogue {
     attachmentsNew: number;
 }
 export interface DialogueInfo {
-    _id: string;
-    type: MessageType;
-    message: MessagePreview;
-    pinned: boolean;
-    new: number;
     attachmentsNew: number;
+    new: number;
+    type: MessageType;
+    pinned: boolean;
+    message: MessagePreview;
+    _id: string;
 }
 export interface Message {
     _id: string;
     uid: string;
     type: MessageType;
     dt: number;
-    localDateTime: number;
     UtcDateTime?: number;
     Member?: IUpdatableChatMember;
     templateId: string;
     text?: string;
     hasRewards: boolean;
     rewardCollected: boolean;
-    items: Items;
+    items: MessageItems;
     maxStorageTime?: number;
     systemData?: ISystemData;
+    profileChangeEvents?: any[];
 }
 export interface MessagePreview {
     uid: string;
@@ -67,7 +67,7 @@ export interface MessagePreview {
     templateId: string;
     text?: string;
 }
-export interface Items {
+export interface MessageItems {
     stash?: string;
     data?: Item[];
 }
@@ -153,15 +153,11 @@ export interface MessageContent {
     templateId: string;
     type: MessageType;
     maxStorageTime?: number;
-    systemData?: MessageContentData;
+    profileChangeEvents?: any[];
+    systemData?: ISystemData;
 }
 export interface MessageContentRagfair {
     offerId: string;
     count: number;
     handbookId: string;
-}
-export interface MessageContentData {
-    date: string;
-    time: string;
-    location: string;
 }

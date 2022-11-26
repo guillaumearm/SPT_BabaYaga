@@ -1,4 +1,4 @@
-import { Skills } from "../common/IPmcData";
+import { Skills } from "../common/tables/IBotBase";
 import { Item, Upd } from "../common/tables/IItem";
 import { IQuest } from "../common/tables/IQuest";
 import { IPmcDataRepeatableQuest } from "../common/tables/IRepeatableQuests";
@@ -10,8 +10,9 @@ export interface IItemEventRouterBase {
 export declare type TProfileChanges = Record<string, ProfileChange>;
 export interface Warning {
     index: number;
-    err: string;
     errmsg: string;
+    code?: string;
+    data?: any;
 }
 export interface ProfileChange {
     _id: string;

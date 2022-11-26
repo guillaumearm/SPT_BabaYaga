@@ -1,3 +1,4 @@
+import { MinMax } from "../../common/MinMax";
 import { IBaseConfig } from "./IBaseConfig";
 export interface IRagfairConfig extends IBaseConfig {
     kind: "aki-ragfair";
@@ -11,6 +12,7 @@ export interface Sell {
     chance: Chance;
     time: Time;
     reputation: Reputation;
+    simulatedSellHours: number;
 }
 export interface Chance {
     base: number;
@@ -27,10 +29,13 @@ export interface Reputation {
     loss: number;
 }
 export interface Dynamic {
+    barter: Barter;
+    offerAdjustment: OfferAdjustment;
     expiredOfferThreshold: number;
     offerItemCount: MinMax;
     price: MinMax;
     presetPrice: MinMax;
+    showDefaultPresetsOnly: boolean;
     endTimeSeconds: MinMax;
     condition: Condition;
     stackablePercent: MinMax;
@@ -40,9 +45,19 @@ export interface Dynamic {
     showAsSingleStack: string[];
     blacklist: Blacklist;
 }
-export interface MinMax {
-    min: number;
-    max: number;
+export declare class Barter {
+    enable: boolean;
+    chancePercent: number;
+    itemCountMin: number;
+    itemCountMax: number;
+    priceRangeVariancePercent: number;
+    minRoubleCostToBecomeBarter: number;
+    itemTypeBlacklist: string[];
+}
+export declare class OfferAdjustment {
+    maxPriceDifferenceBelowHandbookPercent: number;
+    handbookPriceMultipier: number;
+    priceThreshholdRub: number;
 }
 export interface Condition {
     conditionChance: number;
