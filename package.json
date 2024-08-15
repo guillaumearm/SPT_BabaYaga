@@ -23,9 +23,7 @@
     "test:ci": "npm run test:all",
     "test": "tsc --noEmit && npm run lint:all"
   },
-  "modDependencies": {
-    "Trap-CustomQuests": ">= 3.2.0"
-  },
+  "modDependencies": {},
   "devDependencies": {
     "@types/i18n": "^0.13.5",
     "@types/node": "^14.15.3",
