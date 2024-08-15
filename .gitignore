@@ -2,5 +2,6 @@
 /tmp/
 /dist/
 /src/**/*.js
+/src/**/*.js.map
 Trap-BabaYaga*
 *.code-workspace
