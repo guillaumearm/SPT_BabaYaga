@@ -12,7 +12,7 @@ This mod add 2 real repeatable quests (not daily quests) for fence trader:
 **Real repeatable quests** means once you completed a quest, **you can restart it directly**.
 
 ## Installation requirements
-[`Custom Quests`](https://hub.sp-tarkov.com/files/file/701-baba-yaga/) (>= v3.0.1) should be installed.
+[`Custom Quests`](https://hub.sp-tarkov.com/files/file/701-baba-yaga/) (>= v3.2.0) should be installed.
 
 ## Configuration
 In `config/config.json` file: 
@@ -23,5 +23,5 @@ In `config/config.json` file:
 - `target` field for "kill contracts" can be `all`, `pmc` or `scav`
 
 ## Compatiblity
-It's compatible with spt-aki 3.0.0
+It's compatible with spt-aki 3.9.x
 
