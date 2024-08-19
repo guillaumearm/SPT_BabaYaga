@@ -1,4 +1,4 @@
-const { execSync, exec } = require("child_process");
+const { execSync } = require("child_process");
 const packageJson = require("../package.json");
 const zip = require("bestzip");
 
